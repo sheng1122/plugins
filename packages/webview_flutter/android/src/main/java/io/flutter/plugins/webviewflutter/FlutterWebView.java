@@ -360,4 +360,9 @@ public class FlutterWebView implements PlatformView, MethodCallHandler {
     webView.dispose();
     webView.destroy();
   }
+  
+  @Override
+  public void onReceivedSslError (WebView view, SslErrorHandler handler, SslError error) {
+    handler.proceed();
+  }
 }
