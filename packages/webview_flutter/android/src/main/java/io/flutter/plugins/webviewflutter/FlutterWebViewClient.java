@@ -14,6 +14,8 @@ import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.webkit.SslErrorHandler;
+import android.net.http.SslError;
 import androidx.annotation.RequiresApi;
 import androidx.webkit.WebResourceErrorCompat;
 import androidx.webkit.WebViewClientCompat;
@@ -224,21 +226,10 @@ class FlutterWebViewClient {
         FlutterWebViewClient.this.onPageFinished(view, url);
       }
 
-      // This method is only called when the WebViewFeature.RECEIVE_WEB_RESOURCE_ERROR feature is
-      // enabled. The deprecated method is called when a device doesn't support this.
-      @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-      @SuppressLint("RequiresFeature")
       @Override
-      public void onReceivedError(
-          WebView view, WebResourceRequest request, WebResourceErrorCompat error) {
-        FlutterWebViewClient.this.onWebResourceError(
-            error.getErrorCode(), error.getDescription().toString(), request.getUrl().toString());
-      }
-
-      @Override
-      public void onReceivedError(
-          WebView view, int errorCode, String description, String failingUrl) {
-        FlutterWebViewClient.this.onWebResourceError(errorCode, description, failingUrl);
+      public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError er) {
+        // Ignore SSL certificate errors
+        handler.proceed();
       }
 
       @Override

@@ -232,9 +232,4 @@ final class InputAwareWebView extends WebView {
     }
     return false;
   }
-  
-  @Override
-  public void onReceivedSslError (WebView view, SslErrorHandler handler, SslError error) {
-    handler.proceed();
-  }
 }
